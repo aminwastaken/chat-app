@@ -15,13 +15,13 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBEtT4mz3m_lUJpU4FVhFNYvX1_3K17TYY",
-  authDomain: "chat-4268e.firebaseapp.com",
-  projectId: "chat-4268e",
-  storageBucket: "chat-4268e.appspot.com",
-  messagingSenderId: "220936337581",
-  appId: "1:220936337581:web:eea8c4cdf39ad061fe6e24",
-  measurementId: "G-BCQ6J7P8SR",
+  apiKey: "AIzaSyCd3ynckqpzuxnv2y6NW7275DawRdf7T2Q",
+  authDomain: "chat-app-848d9.firebaseapp.com",
+  projectId: "chat-app-848d9",
+  storageBucket: "chat-app-848d9.appspot.com",
+  messagingSenderId: "84337116829",
+  appId: "1:84337116829:web:7134478c4ba357d27d3674",
+  measurementId: "G-F1ZM81W6GL",
 };
 
 // Initialize Firebase
@@ -38,19 +38,8 @@ const createMessage = (message = {}) => {
 const getMessages = () => {
   const messages = [];
   const chat = ref(database, "/chat");
-  return new Promise((resolve) => {
-    onValue(chat, (snapshots) => {
-      console.log(snapshots);
-      //   snapshots.forEach((snapshot) => {
-      //     const data = snapshot.val();
-      //     todos.push({
-      //       key: snapshot.key,
-      //       data: snapshot.val(),
-      //     });
-      //   });
-      //   resolve(todos);
-      resolve(snapshots);
-    });
+  onValue(chat, (snapshots) => {
+    console.log(snapshots);
   });
 };
 
