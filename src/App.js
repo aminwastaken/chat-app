@@ -4,7 +4,10 @@ import "firebase/firestore";
 import { getMessages } from "./utils/firebase";
 
 function App() {
-  getMessages();
+  (async () => {
+    const messages = await getMessages();
+    console.log(messages);
+  })();
   return <div>chat app</div>;
 }
 

@@ -23,7 +23,6 @@ const firebaseConfig = {
   appId: "1:84337116829:web:7134478c4ba357d27d3674",
   measurementId: "G-F1ZM81W6GL",
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
@@ -39,9 +38,35 @@ const getMessages = () => {
   const messages = [];
   const chat = ref(database, "/chat");
   onValue(chat, (snapshots) => {
-    console.log(snapshots);
+    snapshots.forEach((snapshot) => {
+      const data = snapshot.val();
+      messages.push({
+        key: snapshot.key,
+        data: snapshot.val(),
+      });
+    });
+    console.log("changed");
+    console.log(messages);
   });
 };
+
+// const getMessages = () => {
+//   const messages = [];
+//   const chat = ref(database, "/chat");
+//   return new Promise((resolve) => {
+//     onValue(chat, (snapshots) => {
+//       snapshots.forEach((snapshot) => {
+//         const data = snapshot.val();
+//         messages.push({
+//           key: snapshot.key,
+//           data: snapshot.val(),
+//         });
+//       });
+//       console.log("changed");
+//       resolve(messages);
+//     });
+//   });
+// };
 
 const analytics = getAnalytics(app);
 
