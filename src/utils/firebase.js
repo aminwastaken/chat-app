@@ -1,6 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onChildAdded,
+  onValue,
+} from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,4 +26,34 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+const createMessage = (message = {}) => {
+  const messages = ref(database, "/chat");
+  const newKey = push(messages).key;
+  console.log(newKey);
+  set(ref(database, `/chat/${newKey}`), message);
+};
+
+const getMessages = () => {
+  const messages = [];
+  const chat = ref(database, "/chat");
+  return new Promise((resolve) => {
+    onValue(chat, (snapshots) => {
+      console.log(snapshots);
+      //   snapshots.forEach((snapshot) => {
+      //     const data = snapshot.val();
+      //     todos.push({
+      //       key: snapshot.key,
+      //       data: snapshot.val(),
+      //     });
+      //   });
+      //   resolve(todos);
+      resolve(snapshots);
+    });
+  });
+};
+
 const analytics = getAnalytics(app);
+
+export { createMessage, getMessages, app };
