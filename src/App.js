@@ -4,6 +4,7 @@ import "firebase/firestore";
 import { getMessages, createMessage } from "./utils/firebase";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Chat from "./pages/Chat";
+import Login from "./pages/Login";
 
 function App() {
   createMessage({ toto: "another toto" });
@@ -14,9 +15,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Chat />}>
-          <Route path="chat" element={<Chat />} />
-        </Route>
+        {/* <Route path="/" element={<Chat />}> */}
+        <Route path="chat" element={<Chat />} />
+        <Route path="login" element={<Login />} />
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );

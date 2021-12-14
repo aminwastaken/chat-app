@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {
   getDatabase,
   ref,
@@ -26,6 +27,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const auth = getAuth(app);
 
 const createMessage = (message = {}) => {
   const messages = ref(database, "/chat");
@@ -68,6 +70,12 @@ const getMessages = () => {
 //   });
 // };
 
-const analytics = getAnalytics(app);
+export function login(email, password) {
+  return signInWithEmailAndPassword(auth, email, password).then(({ user }) => {
+    console.log(user);
+    return user;
+  });
+}
 
+const analytics = getAnalytics(app);
 export { createMessage, getMessages, app };
