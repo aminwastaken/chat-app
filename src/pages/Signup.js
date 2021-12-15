@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { login } from "../utils/firebase";
+import { signup } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate()
-  const onHandleLogin = () => {
+  const onHandleSignup = () => {
     if (email !== "" && password !== "") {
-      login(email, password);
+      signup(email, password);
     }
-    navigate("/channels");
+    navigate("/chat");
   };
 
   return (
@@ -28,12 +28,12 @@ const Login = () => {
         value={password}
         onChange={(event) => setPassword(event.target.value)}
       />
-      <button onClick={onHandleLogin} color="#f57c00">
-        login
+      <button onClick={onHandleSignup} color="#f57c00">
+        Sign up
       </button>
-      <button onClick={() => navigate("/signup")}>Go to sign up page</button>
+      <button onClick={() => navigate("/signup")}>Go to login page</button>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
