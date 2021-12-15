@@ -35,23 +35,19 @@ const createMessage = (channel, message) => {
 };
 
 const getMessages = async (id,update) => {
-  console.log("get messages");
-  const messages = [];
   const data = ref(database, `/channels/${id}`);
-  // console.log(data)
   return new Promise((resolve) =>
     onValue(data, (snapshots) => {
+      const messages = [];
       snapshots.forEach((snapshot) => {
-        console.log("raw", snapshot);
-        console.log("val", snapshot.val());
         messages.push({
           message: snapshot.val().message,
           date: snapshot.val().date,
           sender: snapshot.val().sender,
         });
       });
-      console.log("changed");
-      console.log(messages);
+      console.log("newMessage");
+      console.log("new value", messages);
       resolve(messages);
       update(messages)
     })
@@ -59,19 +55,16 @@ const getMessages = async (id,update) => {
 };
 
 export const getChannels = async () => {
-  const res = [];
   const chat = ref(database, "/channels");
   return new Promise((resolve) =>
     onValue(chat, (snapshots) => {
+      const res = [];
       snapshots.forEach((snapshot) => {
-        // const data = snapshot.val();
         res.push({
           key: snapshot.key,
           data: snapshot.val(),
         });
       });
-      console.log("changed");
-      console.log(res);
       resolve(res);
     })
   );

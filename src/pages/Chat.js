@@ -36,7 +36,8 @@ const Chat = () => {
           </div> */}
           <div className="overflow-auto">
             {messages
-              ?.filter((m) => m.message)
+              ?.filter((m) => m.date && m.message)
+              .sort((a, b) => a.date - b.date)
               .map((message) => MessageItem(message.message, message.sender))}
           </div>
           <div className="flex w-full m-4 justify-center">
