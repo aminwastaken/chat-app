@@ -9,19 +9,18 @@ const Chat = () => {
   const [user, setUser] = useState(null);
   const { id } = useParams();
 
-  const fetchMessages = async (channelId) => {
-    return await getMessages(channelId);
-  };
   const sendMessage = async () => {
     createMessage(id, { message: message, sender: "", date: Date.now() });
     setMessage("");
-    setMessages(await fetchMessages(id));
   };
 
   useEffect(async () => {
-    // setUser(getUser());
-    setMessages(await fetchMessages(id));
+    await getMessages(id, setMessages);
   }, []);
+
+  // document.addEventListener("data", function () {
+  //   const { name } = detail;
+  // });
 
   return (
     <div className="flex justify-center h-screen">

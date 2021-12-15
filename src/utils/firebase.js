@@ -28,13 +28,13 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 
 const createMessage = (channel, message) => {
-  console.log("targetChannel",channel)
+  console.log("targetChannel", channel);
   const targetChannel = ref(database, `/channels/${channel}`);
   const newKey = push(targetChannel).key;
   set(ref(database, `/channels/${channel}/${newKey}`), message);
 };
 
-const getMessages = async (id) => {
+const getMessages = async (id,update) => {
   console.log("get messages");
   const messages = [];
   const data = ref(database, `/channels/${id}`);
@@ -53,6 +53,7 @@ const getMessages = async (id) => {
       console.log("changed");
       console.log(messages);
       resolve(messages);
+      update(messages)
     })
   );
 };
