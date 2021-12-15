@@ -6,10 +6,11 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onHandleLogin = () => {
     if (email !== "" && password !== "") {
       login(email, password);
+      localStorage.setItem("username", email.split("@")[0]);
     }
     navigate("/channels");
   };
