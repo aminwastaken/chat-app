@@ -10,7 +10,11 @@ const Chat = () => {
   const { id } = useParams();
 
   const sendMessage = async () => {
-    createMessage(id, { message: message, sender: "", date: Date.now() });
+    createMessage(id, {
+      message: message,
+      sender: localStorage.getItem("username"),
+      date: Date.now(),
+    });
     setMessage("");
   };
 
@@ -33,7 +37,7 @@ const Chat = () => {
           <div className="overflow-auto">
             {messages
               ?.filter((m) => m.message)
-              .map((message) => MessageItem(message.message))}
+              .map((message) => MessageItem(message.message, message.sender))}
           </div>
           <div className="flex w-full m-4 justify-center">
             <input

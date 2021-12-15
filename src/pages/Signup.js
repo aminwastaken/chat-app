@@ -6,11 +6,13 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const onHandleSignup = () => {
     if (email !== "" && password !== "") {
       signup(email, password);
+      localStorage.setItem("username", email.split("@")[0]);
     }
+
     navigate("/chat");
   };
 
