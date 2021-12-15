@@ -6,7 +6,14 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { getDatabase, ref, push, set, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  push,
+  set,
+  onValue,
+  onDisconnect,
+} from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -93,11 +100,21 @@ export function signup(email, password) {
   return createUserWithEmailAndPassword(auth, email, password).then(
     ({ user: { uid, email } }) => {
       set(ref(database, `/users/${uid}`), {
+        id: uid,
         email,
       });
     }
   );
 }
 
+const checkUserConnection = (id) => {
+  const connectedRef = ref(database, `/user/${id}/connected`);
+  return new Promise(resolve => 
+    onValue(connectedRef, (snapshot) => {
+      snapshot.val() ? resolve(true) : resolve(false);
+    }))
+};
+
 const analytics = getAnalytics(app);
 export { createMessage, getMessages, createChannel, app };
+
