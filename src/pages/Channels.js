@@ -1,19 +1,17 @@
 import { React, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getChannels } from "../utils/firebase";
+import { createChannel, getChannels } from "../utils/firebase";
 
 const Channels = () => {
   const [channels, setChannels] = useState([]);
+  const [newChannel, setNewChannel] = useState("");
 
   useEffect(async () => {
-    let channels = await getChannels();
+    let channels = await getChannels(setChannels);
     console.log("channels", channels);
-    setChannels(channels);
   }, []);
 
-  useEffect(() => {
-    
-  }, [channels]);
+  useEffect(() => {}, [channels]);
 
   return (
     <>
@@ -27,6 +25,12 @@ const Channels = () => {
             ))}
           </ul>
         }
+        <input
+          name="newChannel"
+          onChange={(event) => setNewChannel(event.target.value)}
+          value={newChannel}
+        />
+        <button onClick={() => createChannel(newChannel)}>New channel</button>
       </div>
     </>
   );

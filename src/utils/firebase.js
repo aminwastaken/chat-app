@@ -41,6 +41,17 @@ const createMessage = (channel, message) => {
   set(ref(database, `/channels/${channel}/${newKey}`), message);
 };
 
+const createChannel = (channel) => {
+  console.log("targetChannel", channel);
+  const targetChannel = ref(database, `/channels/${channel}`);
+  const newKey = push(targetChannel).key;
+  set(ref(database, `/channels/${channel}/${newKey}`), {
+    sender: "bot",
+    message: "Welcome to this new channel",
+    date: Date.now(),
+  });
+};
+
 const getMessages = async (id, update) => {
   const data = ref(database, `/channels/${id}`);
   return new Promise((resolve) =>
@@ -61,7 +72,7 @@ const getMessages = async (id, update) => {
   );
 };
 
-export const getChannels = async () => {
+export const getChannels = async (setChannels) => {
   const chat = ref(database, "/channels");
   return new Promise((resolve) =>
     onValue(chat, (snapshots) => {
@@ -73,6 +84,7 @@ export const getChannels = async () => {
         });
       });
       resolve(res);
+      setChannels(res);
     })
   );
 };
@@ -104,5 +116,5 @@ const checkUserConnection = (id) => {
 };
 
 const analytics = getAnalytics(app);
+export { createMessage, getMessages, createChannel, app };
 
-export { createMessage, getMessages, app };
